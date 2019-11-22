@@ -1,0 +1,140 @@
+# Licensed Materials - Property of IBM
+# IBM Cloud private
+# @ Copyright IBM Corp. 2019 All Rights Reserved
+# US Government Users Restricted Rights - Use, duplication or disclosure restricted by GSA ADP Schedule Contract with IBM Corp.
+
+---
+
+# A list of OpenShift nodes that used to run Cloud Pak foundation components
+#
+# You can use your OpenShift master and infrastructure nodes here, or install these components
+# to dedicated OpenShift compute nodes. You can specify more than one node for each type to
+# build a high availability cluster.
+#
+# The node names here should match the node names produced by the `oc get nodes` command.
+#
+# To run Cloud Pak foundation components on an OpenShift master or infrastructure node, you must
+# ensure it is labelled as a compute node:
+# oc label node <master node name/infrastructure node name> node-role.kubernetes.io/compute=true
+cluster_nodes:
+  master:
+    - ip-10-0-1-75.us-east-2.compute.internal
+  proxy:
+    - ip-10-0-1-129.us-east-2.compute.internal
+  management:
+    - ip-10-0-1-129.us-east-2.compute.internal
+
+storage_class: glusterfs-storage
+
+openshift:
+  # These values are used by the installer to communicate with OpenShift and install components.
+  # They should match the hostname and port used to connect to the OpenShift console.
+  console:
+    host: ocp.mydomain.com
+    port: 8443
+
+  # These values define the hostname to use for the Cloud Pak foundation console and proxy. These
+  # hostnames should resolve to the IP address of the OpenShift router, which is typically the
+  # infrastructure node, or the load balancer that manages traffic for multiple infrastructure
+  # nodes.
+  router:
+    cluster_host: icp-console.apps.ocp.mydomain.com
+    # &proxy is a YAML anchor that allows us to refer to this value later when configuring
+    # the IBM Cloud Pak for Integration Platform Navigator
+    proxy_host: &proxy icp-proxy.apps.ocp.mydomain.com
+
+default_admin_password: admin
+
+password_rules:
+- '(.*)'
+
+# These values control the Cloud Pak foundation proxy ports. If you ues a dedicated node for the
+# Cloud Pak foundation proxy you will be able to connect to the proxy by directly connecting to the
+# node. If there are other services using these ports on the selected node, the Cloud Pak foundation
+# proxy service will not start successfully unless you change to use different ports here.
+#
+# You will always be able to connect to the Cloud Pak foundation proxy by using the value defined
+# above for openshift.console.proxy_host.
+# ingress_http_port: 80
+# ingress_https_port: 443
+
+kubernetes_cluster_type: openshift
+## You can disable following services if they are not needed
+## Disabling services may impact the installation of IBM Cloud Paks.
+## Proceed with caution and refer to the Knowledge Center document for specific considerations.
+# auth-idp
+# auth-pap
+# auth-pdp
+# catalog-ui
+# helm-api
+# helm-repo
+# icp-management-ingress
+# metering
+# metrics-server
+# mgmt-repo
+# monitoring
+# nginx-ingress
+# platform-api
+# platform-ui
+# secret-watcher
+# security-onboarding
+# web-terminal
+
+management_services:
+  monitoring: enabled
+  metering: enabled
+  logging: enabled
+  custom-metrics-adapter: disabled
+  platform-pod-security: enabled
+
+archive_addons:
+  icp4i:
+    namespace: integration
+    repo: local-charts
+    path: icp4icontent/IBM-Cloud-Pak-for-Integration-2.1.2.tgz
+
+    charts:
+    - name: ibm-icp4i-prod
+      values:
+        tls:
+          # *proxy is a YAML alias that refers to the openshift.console.proxy_host value above using
+          # the &proxy anchor, which reflects the recommendation that the same host is used. This value
+          # can be changed to configure the IBM Cloud Pak for Integration Platform Navigator to use a
+          # different host by removing the *proxy alias and specifying a different hostname.
+          hostname: *proxy
+          generate: true
+
+  mq:
+    namespace: mq
+    repo: local-charts
+    path: icp4icontent/IBM-MQ-Advanced-for-IBM-Cloud-Pak-for-Integration-4.0.0.tgz
+
+  ace:
+    namespace: ace
+    repo: local-charts
+    path: icp4icontent/IBM-App-Connect-Enterprise-for-IBM-Cloud-Pak-for-Integration-2.1.0.tgz
+
+  eventstreams:
+    namespace: eventstreams
+    repo: local-charts
+    path: icp4icontent/IBM-Event-Streams-for-IBM-Cloud-Pak-for-Integration-1.3.2-for-OpenShift.tgz
+
+  apic:
+    namespace: apic
+    repo: local-charts
+    path: icp4icontent/IBM-API-Connect-Enterprise-for-IBM-Cloud-Pak-for-Integration-1.0.2.tgz
+
+  aspera:
+    namespace: aspera
+    repo: local-charts
+    path: icp4icontent/IBM-Aspera-High-Speed-Transfer-Server-for-IBM-Cloud-Pak-for-Integration-1.2.2.tgz
+
+  datapower:
+    namespace: datapower
+    repo: local-charts
+    path: icp4icontent/IBM-DataPower-Virtual-Edition-for-IBM-Cloud-Pak-for-Integration-1.0.4.tgz
+
+  assetrepo:
+    namespace: integration
+    repo: local-charts
+    path: icp4icontent/IBM-Cloud-Pak-for-Integration-Asset-Repository-2.1.1.tgz
