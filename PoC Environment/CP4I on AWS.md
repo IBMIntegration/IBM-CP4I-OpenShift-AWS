@@ -486,6 +486,7 @@ Update kernel - this installation requires a kernel version of
 ```
 1.  Register system with Red Hat and attach to the required pool, and
     enable repositories
+
 ```
 # subscription-manager register --username=<username> \
 #   --password=<password> --force
@@ -496,7 +497,9 @@ Update kernel - this installation requires a kernel version of
 #   --enable="rhel-7-server-ose-3.11-rpms" \
 #   --enable="rhel-7-server-ansible-2.6-rpms";
 
+```
 2.  Update packages:
+
 ```
 # yum -y -q update;
 # yum -y -q install wget git net-tools bind-utils\
@@ -506,6 +509,7 @@ Update kernel - this installation requires a kernel version of
 # yum -y -q install docker;
 ```
 3.  Update OS parameters:
+
 ```
 # sed -i 's/net.ipv4.ip_forward = 0/net.ipv4.ip_forward = \
 #   1/g' /etc/sysctl.conf;
@@ -515,6 +519,7 @@ Update kernel - this installation requires a kernel version of
 # chkconfig NetworkManager on;
 # sysctl -w vm.max_map_count=262144;
 ```
+
 4.  Because the kernel has been updated, the nodes need to be restarted
     to allow the new kernel to be used. Reboot all the nodes using the
     AWS console or the reboot command.
