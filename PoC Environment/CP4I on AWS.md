@@ -14,11 +14,10 @@ install RHOCP, and then CP4I. CP4I includes Cloud Pak Foundation, which
 is the elements of IBM Cloud Private (ICP) that are required to run
 CP4I. In terms of dependency, the stack is as follows:
 
-  Cloud Pak for Integration
-  ---------------------------
-  IBM Cloud Private
-  Openshift
-  Kubernetes
+  - Cloud Pak for Integration
+  - IBM Cloud Private
+  - Openshift
+  - Kubernetes
 
 However in practice Openshift, ICP and CP4I are all installed as
 Kubernetes artefacts. These instructions run the Openshift installer
