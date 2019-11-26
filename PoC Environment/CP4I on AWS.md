@@ -750,11 +750,11 @@ version of CP4I is ibm-cp-integration-2019.3.2.2-ocp.tar.gz.
 
 cluster_nodes:
 master:
-  - <icp master internal hostname>
+  - <master2 icp internal hostname>
 proxy:
-  - <icp master internal hostname>
+  - <master2 icp internal hostname>
 management:
-  - <icp master internal hostname>
+  - <master2 icp internal hostname>
 
 storage_class: glusterfs-storage
 openshift:
