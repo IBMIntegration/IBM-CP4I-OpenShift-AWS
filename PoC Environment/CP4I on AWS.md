@@ -2,6 +2,9 @@ Ben Cornwell, IBM
 
 31/10/2019
 
+PLEASE NOTE:
+These instructions currently rely on the auto-generated public IP that AWS generates.  This IP persists across reboots, however if a machine is stopped and started again later, the public IP will change, and the cluster will no longer be viable.
+
 Introduction
 ============
 
