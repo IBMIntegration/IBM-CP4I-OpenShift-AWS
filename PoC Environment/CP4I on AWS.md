@@ -114,7 +114,7 @@ Create a VPC (Virtual Private Cloud)
 ![](./media/image2.png)
 
 
-2.  Select Your VPCs from the left. Click on 'Create VPC'
+2.  Select 'Your VPCs' from the left. Click on 'Create VPC'
 
 ![](./media/image3.png)
 
@@ -132,17 +132,6 @@ Create a VPC (Virtual Private Cloud)
 5.  Enable DNS hostnames, then click 'Save', then 'Close'
 
 ![](./media/image6.png)
-
-
-6.  Now click on NAT Gateways
-
-![](./media/image7.png)
-
-
-7.  Click on 'Create NAT Gateway'
-
-![](./media/image8.png)
-
 
 8.  Click on 'Subnets' then 'Create Subnet'
 
@@ -177,26 +166,13 @@ Create a VPC (Virtual Private Cloud)
 
 ![](./media/image14.png)
 
-
-14. Click 'NAT Gateways' on the left then 'Create NAT Gateway'.
-
-![](./media/image15.png)
-
-
-15. On the next screen, select your subnet from the drop-down, then
-    'Create new EIP', then 'Create a NAT Gateway'. Click close on the
-    next screen.
-
-![](./media/image16.png)
-
-
-16. Click 'Route Tables' on the left and then select your route table.
+14. Click 'Route Tables' on the left and then select your route table.
     Click on 'Edit Routes'
 
 ![](./media/image17.png)
 
 
-17. Add a route to the internet from your cluster, for convenience.
+15. Add a route to the internet from your cluster, for convenience.
     Click 'Add Route' then enter 0.0.0.0/0 in the destination field and
     choose your internet gateway from the drop-down. Click 'Save Routes'
 
@@ -278,8 +254,41 @@ first in the list should be
 
     ![](./media/image26.png)
 
+10. We now need to allocate an elastic IP to the master OCP node.  This is needed because the automatically generated external IPs are ephemeral and are not preserved if an instance is shut down and started up later; however elastic IPs that are allocated to a single instance are preserved.  Go back to the 'Services' drop-down at the top of the screen and select VPC again.
 
-10. Since the worker nodes will be GlusterFS nodes, they need an extra
+    ![](./media/image44.png)
+
+11. Click on 'Elastic IPs' on the left
+
+    ![](./media/image45.png)
+
+12. Click on 'Allocate new address'
+
+  ![](./media/image46.png)
+
+13. Select 'Amazon pool' then click on 'Allocate'
+
+![](./media/image47.png)
+
+14. Now right click on the elastic IP and select 'Associate address'
+
+![](./media/image48.png)
+
+15. On the next screen select your master1 ocp node in the 'Instance' drop-down.
+
+![](./media/image49.png)
+
+16. Select the instance's private IP in the 'Private IP' dropdown, then click 'Associate'.
+
+![](./media/image50.png)
+
+17. You may wish to make a note of the elastic IP and its hostname now that it has been allocated.
+
+![](./media/image51.png)
+
+18.  Go back to the EC2 instances screen by accessing the 'Services' drop down.
+
+19. Since the worker nodes will be GlusterFS nodes, they need an extra
     block storage device. They need to be created independently and
     assigned to the nodes. Click on 'Volumes' on the left side menu. The
     existing volumes attached to each instance are already there. Click
@@ -288,7 +297,7 @@ first in the list should be
 > ![](./media/image27.png)
 >
 
-11. On the next page, accept the defaults for everything except the
+20. On the next page, accept the defaults for everything except the
     volume size and 'Availability Zone'. Choose 500GiB for the size.
     Click 'Create Volume'. **Make sure the availability zone matches
     that of your instances.** Repeat three times.
@@ -296,18 +305,18 @@ first in the list should be
 ![](./media/image28.png)
 
 
-12. Label each volume gluster1-3
+21. Label each volume gluster1-3
 
 ![](./media/image29.png)
 
 
-13. For each of the gluster volumes, right click and select 'attach
+22. For each of the gluster volumes, right click and select 'attach
     volume'.
 
 ![](./media/image30.png)
 
 
-14. In the next screen you can type the name you gave to the instance in
+23. In the next screen you can type the name you gave to the instance in
     step 10 e.g. worker1, then click on the instance ID that is
     displayed. In the 'device' field the default is /dev/sdf which can
     be left as it is. You will see a message saying that the device may
@@ -318,7 +327,7 @@ first in the list should be
 > ![](./media/image31.png)
 >
 
-15. Now you can verify connection to the instances. On the left select
+24. Now you can verify connection to the instances. On the left select
     'Instances' to get the instance list, and then right click on one of
     the instances and click 'connect'. The resulting dialog gives
     instructions to connect to the instance. In this case, ssh is
@@ -327,7 +336,7 @@ first in the list should be
 > ![](./media/image32.png)
 >
 
-16. Set up firewall rules. On the 'Instances' page, click on one of the
+25. Set up firewall rules. On the 'Instances' page, click on one of the
     nodes and check the 'Description' tab at the bottom. Under 'Security
     Groups' one should be listed as a hyperlink. It should be called
     something like 'launch-wizard-1' as it is automatically created by
@@ -336,13 +345,13 @@ first in the list should be
     ![](./media/image33.png)
 
 
-17. Make a note of the Group ID for the security group. Click on the
+26. Make a note of the Group ID for the security group. Click on the
     'Inbound' tab at the bottom then 'Edit'.
 
     ![](./media/image34.png)
 
 
-18. You should see one rule allowing SSH access. You will need three
+27. You should see one rule allowing SSH access. You will need three
     more. Click on Edit
 
     ![](./media/image35.png)
@@ -361,7 +370,7 @@ first in the list should be
     ![](./media/image36.png)
 
 
-19. Set up DNS resolution from your local machine. This required because
+28. Set up DNS resolution from your local machine. This required because
     Openshift and ICP route traffic to services by matching the hostname
     of the request to that specified in the service. The services by
     default are bound to the FQDN of the router node (the master in this
@@ -377,18 +386,18 @@ first in the list should be
 
 ```
 # AWS Cluster
-<master1 ocp ip> <master1 ocp external hostname>
-<master1 ocp ip> console.apps.<master1 ocp external hostname>
-<master1 ocp ip> icp-proxy.apps.<master1 ocp external hostname>
-<master1 ocp ip> icp-console.apps.<master1 ocp external hostname>
-<master1 ocp ip> docker-registry-default.apps.<master1 ocp external hostname>
-<master1 ocp ip> registry-console-default.apps. <master1 ocp external hostname>
-<master1 ocp ip> heketi-storage-glusterfs.apps. <master1 ocp external hostname>
-<master1 ocp ip> apiserver-kube-service-catalog.apps.<master1 ocp external hostname>
-<master1 ocp ip> asb-1338-openshift-ansible-service-broker.apps.<master1 ocp external hostname>
-<master1 ocp ip> alertmanager-main-openshift-monitoring.apps.<master1 ocp external hostname>
-<master1 ocp ip> grafana-openshift-monitoring.apps.<master1 ocp external hostname>
-<master1 ocp ip> prometheus-k8s-openshift-monitoring.apps.<master1 ocp external hostname>
+<elastic ip> <elastic ip>
+<elastic ip> console.apps.<elastic hostname>
+<elastic ip> icp-proxy.apps.<elastic hostname>
+<elastic ip> icp-console.apps.<elastic hostname>
+<elastic ip> docker-registry-default.apps.<elastic hostname>
+<elastic ip> registry-console-default.apps. <elastic hostname>
+<elastic ip> heketi-storage-glusterfs.apps. <elastic hostname>
+<elastic ip> apiserver-kube-service-catalog.apps.<elastic hostname>
+<elastic ip> asb-1338-openshift-ansible-service-broker.apps.<elastic hostname>
+<elastic ip> alertmanager-main-openshift-monitoring.apps.<elastic hostname>
+<elastic ip> grafana-openshift-monitoring.apps.<elastic hostname>
+<elastic ip> prometheus-k8s-openshift-monitoring.apps.<elastic hostname>
 ```
 
 
@@ -559,11 +568,9 @@ glusterfs_registry
 ansible_ssh_user=root
 
 openshift_deployment_type=openshift-enterprise
-openshift_master_cluster_public_hostname=<master1 ocp public
-hostname>
+openshift_master_cluster_public_hostname=<elastic hostname>
 openshift_master_cluster_hostname=<master1 ocp private hostname>
-openshift_master_default_subdomain=apps.<master1 ocp public
-hostname>
+openshift_master_default_subdomain=apps.<elastic hostname>
 
 # This cluster uses htpasswd authentication
 
@@ -645,11 +652,7 @@ and add our nodes to it. Create a file called
 **...** and write the following into it, substituting the appropriate
 values:
 ```
-address=/<master1 ocp public hostname>/<master1 ocp public IP>
-address=/<master2 icp public hostname>/<master2 icp public IP>
-address=/<worker1 public hostname>/<worker1 public IP>
-address=/<worker2 public hostname>/<worker2 public IP>
-address=/<worker3 public hostname>/<worker3 public IP>
+address=/<elastic hostname>/<elastic ip>
 address=/<master1 ocp private hostname>/<master1 ocp private IP>
 address=/<master2 icp private hostname>/<master2 icp private IP>
 address=/<worker1 private hostname>/<worker1 private IP>
@@ -767,7 +770,7 @@ openshift:
 # to the OpenShift console.
 
   console:
-    host: <ocp master external hostname>
+    host: <elastic hostname>
     port: 8443
 
 # These values define the hostname to use for the Cloud Pak foundation console and
@@ -776,12 +779,12 @@ openshift:
 # traffic for multiple infrastructure nodes.
 
     router:
-      cluster_host: icp-console.apps.<ocp master external hostname>
+      cluster_host: icp-console.apps.<elastic hostname>
 
 # &proxy is a YAML anchor that allows us to refer to this value later
 # when configuring the IBM Cloud Pak for Integration Platform Navigator
 
-      proxy_host: &proxy icp-proxy.apps.<ocp master external hostname>
+      proxy_host: &proxy icp-proxy.apps.<elastic hostname>
 
 # admin password here in plain text. Make sure it's on the same line
 # like this
