@@ -169,7 +169,7 @@ Create a VPC (Virtual Private Cloud)
 ![](./media/image17.png)
 
 
-15. Add a route to the internet from your cluster, for convenience.
+15. Add a route to the internet from your cluster - this is needed to .
     Click 'Add Route' then enter 0.0.0.0/0 in the destination field and
     choose your internet gateway from the drop-down. Click 'Save Routes'
 
