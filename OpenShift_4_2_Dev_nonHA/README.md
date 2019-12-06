@@ -176,11 +176,12 @@ All of this steps should be done in your local machine. macOS Catalina 10.15.1 w
     scp -i ~/openshift.pem dev/auth/kubeconfig ec2-user@ec10-0-0-0-0.us-east-2.compute.amazonaws.com:<PATH>/<TO>/<DOWNLOAD_DIRECTORY>/installer_files/cluster/.
     ```
 
-1. Back in the boot node. Validate that the `oc` CLI has access to the node.
+1. Back at the boot node. Validate that the `oc` CLI has access to the node.
 
     ```console
-    $ export KUBECONFIG=<DOWNLOAD_DIRECTORY>/installer_files/cluster/kubeconfig
-    $
+    $ cp <DOWNLOAD_DIRECTORY>/installer_files/cluster/kubeconfig ~/.kube/config
+    NO_OUTPUT
+
     $ oc whoami
     system:admin
     ```
@@ -223,7 +224,7 @@ Sample config file that matches the AWS setup done above:
 1. To start the installation execute the following command. _A file `install.log` will be created using `tee` in case there is a need to review the logs._
 
     ```console
-    sudo docker run -t --net=host -e LICENSE=accept -v $(pwd):/installer/cluster:z -v /var/run:/var/run:z -v /etc/docker:/etc/docker:z --security-opt label:disable ibmcom/icp-inception-amd64:3.2.2-rhel-ee addon -vvv | install.log
+    sudo docker run -t --net=host -e LICENSE=accept -v $(pwd):/installer/cluster:z -v /var/run:/var/run:z -v /etc/docker:/etc/docker:z --security-opt label:disable ibmcom/icp-inception-amd64:3.2.2 addon -vvv | tee install.log
     ```
 
 1. Once installation is complete, access the IBM Cloud Pak for Integration Platform Navigator at the URL of the form `https://<release-name>-<namespace>.apps.<domain>`. By default, the installer uses ibm-icp4i-prod for the helm release name and integration for the namespace. For example, `https://ibm-icp4i-prod-integration.apps.<domain>`. The default is the admin user and default password provided in the config.yaml file.
