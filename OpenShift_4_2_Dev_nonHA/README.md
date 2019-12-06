@@ -1,10 +1,10 @@
 # Install Cloud Pak for Integration 2019.4.1.1 with OpenShift 4.2 on AWS
 
-This document will walk through the setup processs of a **non-HA development** environment of Cloud Pak for Integration. This is **not** recommended for production. 
+This document will walk through the setup processs of a **non-HA development** environment of Cloud Pak for Integration. This is **not** recommended for production.
 
 >**You are responsible for the cost of the AWS services used while running this deployment.**
 
-For the purpose of this guide the AWS region will be `us-east2` and the cluster will be deployed exclusively in availability zone `us-east-2b`. 
+For the purpose of this guide the AWS region will be `us-east2` and the cluster will be deployed exclusively in availability zone `us-east-2b`.
 
 > The [Installing a cluster quickly on AWS](https://docs.openshift.com/container-platform/4.2/installing/installing_aws/installing-aws-default.html) guide is **NOT** recommended to install CP4I. It provisions a very small HA cluster with not enough resources.
 
@@ -215,7 +215,7 @@ Sample config file that matches the AWS setup done above:
     gp2 (default)   kubernetes.io/aws-ebs   151m
     ```
 
-1. It is a good idea to add a custom tag in AWS to identify which nodes have which CP4I components installed. 
+1. It is a good idea to add a custom tag in AWS to identify which nodes have which CP4I components installed.
 
     ![image](images/cp4i_install_1.png)
 
