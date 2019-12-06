@@ -1,0 +1,45 @@
+apiVersion: v1
+baseDomain: cloud.mydomain.com
+compute:
+- hyperthreading: Enabled
+  name: worker
+  platform:
+    aws:
+      rootVolume:
+        iops: 2000
+        size: 120
+        type: gp2
+      type: t2.2xlarge
+      zones:
+      - us-east-2b
+  replicas: 4
+controlPlane:
+  hyperthreading: Enabled
+  name: master
+  platform:
+    aws:
+      rootVolume:
+        iops: 2000
+        size: 120
+        type: io1
+      type: t2.2xlarge
+      zones:
+      - us-east-2b
+  replicas: 1
+metadata:
+  creationTimestamp: null
+  name: dev
+networking:
+  clusterNetwork:
+  - cidr: 10.128.0.0/14
+    hostPrefix: 23
+  machineCIDR: 10.0.0.0/16
+  networkType: OpenShiftSDN
+  serviceNetwork:
+  - 172.30.0.0/16
+platform:
+  aws:
+    region: us-east-2
+pullSecret: 'REDACTED'
+sshKey: |
+  ssh-rsa REDCATED
