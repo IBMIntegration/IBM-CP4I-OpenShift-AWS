@@ -228,3 +228,17 @@ Sample config file that matches the AWS setup done above:
     ```
 
 1. Once installation is complete, access the IBM Cloud Pak for Integration Platform Navigator at the URL of the form `https://<release-name>-<namespace>.apps.<domain>`. By default, the installer uses ibm-icp4i-prod for the helm release name and integration for the namespace. For example, `https://ibm-icp4i-prod-integration.apps.<domain>`. The default is the admin user and default password provided in the config.yaml file.
+
+### Boot node deletion
+
+Once the installation has been successful and Cloud Pak for Integration is not needed. The boot node can be safely deleted or you may opt to turn it off and turn it back on if you need to access the cluster in a remote machine.
+
+If the boot node is to be deleted it is recommended to unregister the Red Hat machine before deleting it.
+
+```console
+$ subscription-manager unregister
+Unregistering from: subscription.rhsm.redhat.com:443/subscription
+System has been unregistered.
+```
+
+If due to a mistake the boot node was not unregistered before deleting you can do so by going to your [RedHat Account](https://access.redhat.com/management/systems).
