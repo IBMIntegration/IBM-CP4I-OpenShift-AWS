@@ -56,10 +56,6 @@ All of this steps should be done in your local machine. macOS Catalina 10.15.1 w
 
 > Since this install only has one master 2 `etcd-quorum-guard` pods will be in pending state and will not work properly. The purpose of these pods are to maintan quorum for etcd. It expects at least 2 master nodes to be available to work properly.
 
-### (Optional) Update the SSL certificates to avoid warnings
-
-1. TBD
-
 ## Cloud Pak for Integration 2019.4.1.1
 
 > Since the OpenShift installer creates and destroys the bastion node that installs the cluster a new node will be created. Make sure this instance is created in the same VPC as the rest of the cluster.
