@@ -175,6 +175,9 @@ All of this steps should be done in your local machine. macOS Catalina 10.15.1 w
 1. Back at the boot node. Validate that the `oc` CLI has access to the node.
 
     ```console
+    $ mkdir ~/.kube
+    NO_OUTPUT
+    
     $ cp <DOWNLOAD_DIRECTORY>/installer_files/cluster/kubeconfig ~/.kube/config
     NO_OUTPUT
 
@@ -184,7 +187,7 @@ All of this steps should be done in your local machine. macOS Catalina 10.15.1 w
 
 ### config.yml File
 
-The `config.yaml` file is the baseline of the setup. There are many different combinations. This file loation by default is `<DOWNLOAD_DIRECTORY>/installer_files/cluster`
+The `config.yaml` file is the baseline of the setup. There are many different combinations. This file location by default is `<DOWNLOAD_DIRECTORY>/installer_files/cluster`
 
 Sample config file that matches the AWS setup done above:
 
