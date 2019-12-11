@@ -120,8 +120,8 @@ All of this steps should be done in your local machine. macOS Catalina 10.15.1 w
 
     ```console
     $ subscription-manager repos --enable="rhel-7-server-rpms" \
-    --enable="rhel-7-server-extras-rpms" \
-    --enable="rhel-7-server-ose-4.2-rpms"
+        --enable="rhel-7-server-extras-rpms" \
+        --enable="rhel-7-server-ose-4.2-rpms"
     Repository 'rhel-7-server-rpms' is enabled for this system.
     Repository 'rhel-7-server-ose-4.2-rpms' is enabled for this system.
     Repository 'rhel-7-server-extras-rpms' is enabled for this system.
