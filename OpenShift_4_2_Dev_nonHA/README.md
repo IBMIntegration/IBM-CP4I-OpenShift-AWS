@@ -13,7 +13,7 @@ For the purpose of this guide the AWS region will be `us-east2` and the cluster 
 1. Follow the steps to configure the AWS account from the [OpenShift Installing AWS Page](https://docs.openshift.com/container-platform/4.2/installing/installing_aws/installing-aws-account.html)
 
 1. This guide uses the following parameters:
-    - Install directory: `dev_cluster` (located at the same path than the `openshift-install` executable.
+    - Install directory: `dev` (located at the same path than the `openshift-install` executable.
     - Domain: `cloud.mydomain.com`
     - Cluster name: `dev`
 
@@ -31,7 +31,7 @@ All of this steps should be done in your local machine. macOS Catalina 10.15.1 w
 1. Generate the installation configuration file.
 
     ```bash
-    $ ./openshift-install create install-config --dir=./dev_cluster
+    $ ./openshift-install create install-config --dir=./dev
     ? SSH Public Key /Users/user/.ssh/id_rsa.pub
     ? Platform aws
     ? Region us-east-2
@@ -42,12 +42,12 @@ All of this steps should be done in your local machine. macOS Catalina 10.15.1 w
 
 1. Review the [install-config.yaml](./resources/install-config.yaml) file recommended for this installation and adjust the paramenters to deploy a cluster needed for CP4I. If you want to learn more about the paramaters supported for AWS go to the [Installation configuration parameters](https://docs.openshift.com/container-platform/4.2/installing/installing_aws/installing-aws-customizations.html#installation-configuration-parameters_installing-aws-customizations)
 
-1. Edit the `install-config.yaml` located inside the `dev_cluster` folder.
+1. Edit the `install-config.yaml` located inside the `dev` folder.
 
 1. To create the cluster infrastructure and install OpenShift run the command:
 
     ```bash
-    ./openshift-install create cluster --dir=./dev_cluster --log-level=info
+    ./openshift-install create cluster --dir=./dev --log-level=info
     ```
 
 1. Validate that the cluster was deployed properly.
