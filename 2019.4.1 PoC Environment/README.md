@@ -47,6 +47,7 @@ NOTE THIS MAY NOT BE NECESSARY FIRST TIME AROUND
 15. You don't need to label any nodes.
 16. Your router domain should be apps.mydomain.com so the cluster_host and proxy_host are icp-console.apps.mydomain.com and icp-proxy.apps.mydomain.com respectively.
 17. Add your admin password for the OCP cluster in the default_admin_password line as follows: `default_admin_password: <password>` and then under password_rules only have one line: `   - '(.*)'`
-18. Start the installer with `docker run -t --net=host -e LICENSE=accept -v $(pwd):/installer/cluster:z -v /var/run:/var/run:z -v /etc/docker:/etc/docker:z --security-opt label:disable ibmcom/icp-inception-amd64:3.2.2 addon`
+18. The installer may take a long time - take precautions to make sure your ssh session does not time out, because your installation will fail.
+19. Start the installer with `docker run -t --net=host -e LICENSE=accept -v $(pwd):/installer/cluster:z -v /var/run:/var/run:z -v /etc/docker:/etc/docker:z --security-opt label:disable ibmcom/icp-inception-amd64:3.2.2 addon`
 
 Troubleshooting tips are in troubleshooting.md
