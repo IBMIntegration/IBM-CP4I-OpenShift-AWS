@@ -129,4 +129,4 @@ default_admin_password: mypass
 
 Troubleshooting tips are in troubleshooting.md
 
-To deploy capabilities, see <tbc>
+To deploy capabilities, see "tbc"
