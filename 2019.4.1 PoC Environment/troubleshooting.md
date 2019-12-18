@@ -1,6 +1,6 @@
 ## Troubleshooting installation of CP4I on Openshift
 
-Be sure to give lots of CPU to your installation node otherwise it will take FOR EVER.  Recommend 8 cores.
+Be sure to give lots of CPU to your installation node otherwise it will take a very long time.  Recommend 8 cores.
 
 If using RHEL for the install node, yum install docker actually installs podman.  The version at time of writing (10/12/2019) is bugged and won't work - it fails when trying to load the images extracted from the tar file with an error about the manifest.  You can either use RHEL 7.x or install actual docker which should work.  Podman however supports a --tls-verify=false option that lets you ignore self signed certificate issues - docker does not (see below).
 
@@ -17,20 +17,9 @@ To delete the cluster and re-install:
 
 The uploading of images in the CP4I installer takes so long that the ssh session may time out.  Either change the config or run the installer in the background, redirect the output to a file then run something like top in the window to keep the shell open.  You can tail the file you've redirected to to view progress.
 
-The default GP2 storage class doesn't work with the default config.  Change this to "something else" (not yet determined)
-
-## After OCP installation
-
-- Run htpasswd locally to create htpasswd file
-- Upload htpasswd file to GUI
-- Run export KUBECONFIG=<install dir>/auth/kubeconfig
-- Unzip the
-- Copy <install dir>/auth/kubeconfig to install_dir/cluster rather than using `oc config`
-- `oc adm policy add-cluster-role-to-user cluster-admin admin`
-- You need to expose the OCP internal registry so that your install node (which is outside the cluster) can push to it:
-- `oc patch configs.imageregistry.operator.openshift.io/cluster --patch '{"spec":{"defaultRoute":true}}' --type=merge`
-
 ## Installing capabilities
+
+For the ACE dashboard, the default storage class of GP2 does not work.  Something else needs to be set up - see <tbc>
 
 If using offline install, change the helm repo in the advanced chart parameters to local-charts from the entitled repository, and then change the server namespace of the docker images to `image-registry.openshift-image-registry.svc:5000`.  Alternatively, simply delete the entitled repository.  You may still have to change the helm repo in the chart but the docker image namespaces should be fine.
 
