@@ -19,7 +19,7 @@ The uploading of images in the CP4I installer takes so long that the ssh session
 
 ## Installing capabilities
 
-For the ACE dashboard, the default storage class of GP2 does not work.  Something else needs to be set up - see <tbc>
+For the ACE dashboard, the default storage class of GP2 does not work.  Something else needs to be set up.  EFS should work.
 
 If using offline install, change the helm repo in the advanced chart parameters to local-charts from the entitled repository, and then change the server namespace of the docker images to `image-registry.openshift-image-registry.svc:5000`.  Alternatively, simply delete the entitled repository.  You may still have to change the helm repo in the chart but the docker image namespaces should be fine.
 
