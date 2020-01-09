@@ -183,6 +183,9 @@ All of this steps should be done in your local machine. macOS Catalina 10.15.1 w
 
     $ oc whoami
     system:admin
+
+    $ oc whoami --show-server
+    https://api.hostname:6443
     ```
 
 ### config.yml File
@@ -230,7 +233,7 @@ Sample config file that matches the AWS setup done above:
 
 ### Boot node deletion
 
-Once the installation has been successful and Cloud Pak for Integration is not needed. The boot node can be safely deleted or you may opt to turn it off and turn it back on if you need to access the cluster in a remote machine.
+Once the installation has been successful and Cloud Pak for Integration is running the boot node is no longer needed and can be safely deleted, or you may opt to turn it off and turn it back on if you need to access the cluster in a remote machine.
 
 If the boot node is to be deleted it is recommended to unregister the Red Hat machine before deleting it.
 
