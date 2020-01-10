@@ -229,7 +229,7 @@ Sample config file that matches the AWS setup done above:
     sudo docker run -t --net=host -e LICENSE=accept -v $(pwd):/installer/cluster:z -v /var/run:/var/run:z -v /etc/docker:/etc/docker:z --security-opt label:disable ibmcom/icp-inception-amd64:3.2.2 addon -vvv | tee install.log
     ```
 
-1. Once installation is complete, access the IBM Cloud Pak for Integration Platform Navigator at the URL of the form `https://<release-name>-<namespace>.apps.<domain>`. By default, the installer uses ibm-icp4i-prod for the helm release name and integration for the namespace. For example, `https://ibm-icp4i-prod-integration.apps.<domain>`. The default is the admin user and default password provided in the config.yaml file.
+1. Once installation is complete, access the IBM Cloud Pak for Integration Platform Navigator at the URL of the form `https://<release-name>-<namespace>.apps.<domain>`. By default, the installer uses `ibm-icp4i-prod` for the helm release name and `integration` for the namespace. For example, `https://ibm-icp4i-prod-integration.apps.<domain>`. To access it use the admin user and default password provided in the `config.yaml` file.
 
 ### Boot node deletion
 
