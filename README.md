@@ -1,6 +1,6 @@
 # IBM-CP4I-OpenShift-AWS
 
-Cloud Pak for Integration on AWS Install Guides
+Cloud Pak for Integration (CP4I) on AWS Install Guides
 
 - Cloud Pak For Integration 2019.4.1.1
   - PoC Environment
