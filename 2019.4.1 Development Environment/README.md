@@ -244,3 +244,37 @@ System has been unregistered.
 ```
 
 If due to a mistake the boot node was not unregistered before deleting you can do so by going to your [RedHat Account](https://access.redhat.com/management/systems).
+
+### Stop and Resume OpenShift cluster
+
+Since this is a development environment it is very likely that it will be required to stop it to avoid unnecessary charges in the AWS billing.
+
+RedHat has published in the OpenShift blog a guide to do so in [this link](https://blog.openshift.com/enabling-openshift-4-clusters-to-stop-and-resume-cluster-vms/).
+
+However, there are a **few issues** with the formatting and spacing the suggested `DeamonSet` yaml. Use [this yaml](./resources/kubelet-bootstrap-cred-manager-ds.yaml) to properly ser it up.
+
+To stop all EC2 the instances associated with the cluster:
+
+```console
+$ export REGION=us-east-2
+NO_OUTPUT
+
+$ export CLUSTERNAME=cluster-name-GUID
+NO_OUTPUT
+
+$ aws ec2 stop-instances --region ${REGION} --instance-ids $(aws ec2 describe-instances --filters "Name=tag:Name,Values=${CLUSTERNAME}-*" "Name=instance-state-name,Values=running" --query 'Reservations[*].Instances[*].InstanceId' --region ${REGION} --output text)
+JSON_OUTPUT
+```
+
+To start all EC2 the instances associated with the cluster:
+
+```console
+$ export REGION=us-east-2
+NO_OUTPUT
+
+$ export CLUSTERNAME=cluster-name-GUID
+NO_OUTPUT
+
+$ aws ec2 start-instances --region ${REGION} --instance-ids $(aws ec2 describe-instances --filters "Name=tag:Name,Values=${CLUSTERNAME}-*" "Name=instance-state-name,Values=stopped" --query 'Reservations[*].Instances[*].InstanceId' --region ${REGION} --output text)
+JSON_OUTPUT
+```
