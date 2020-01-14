@@ -8,6 +8,8 @@ For the purpose of this guide the AWS region will be `us-east2` and the cluster 
 
 > The [Installing a cluster quickly on AWS](https://docs.openshift.com/container-platform/4.2/installing/installing_aws/installing-aws-default.html) guide is **NOT** recommended to install CP4I. It provisions a very small HA cluster with not enough resources.
 
+This guide uses the **offline** installer of Cloud Pak for Integration. This installer is recommended for sites where there is no internet connection. There is an **online** installer that is considerable smaller and faster, for instructions on how to install CP4I with the online installer use [this link](https://www.ibm.com/support/knowledgecenter/SSGT7J_19.4/install/install_online.html).
+
 ## Prerequisites
 
 1. Follow the steps to configure the AWS account from the [OpenShift Installing AWS Page](https://docs.openshift.com/container-platform/4.2/installing/installing_aws/installing-aws-account.html)
