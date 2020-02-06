@@ -56,7 +56,24 @@ All of this steps should be done in your local machine. macOS Catalina 10.15.1 w
     - The install script will out the cluster console URL, the user and password needed to authenticate.
     - Ensure the access from the `oc` CLI. [Logging in to the cluster](https://docs.openshift.com/container-platform/4.2/installing/installing_aws/installing-aws-customizations.html#cli-logging-in-kubeadmin_installing-aws-customizations)
 
-> Since this install only has one master 2 `etcd-quorum-guard` pods will be in pending state and will not work properly. The purpose of these pods are to maintan quorum for etcd. It expects at least 2 master nodes to be available to work properly.
+> Since this install only has one master 2 `etcd-quorum-guard` pods will be in pending state and will not work properly. The purpose of these pods are to maintan quorum for etcd. It expects at least 2 master nodes to be available to work properly. To scale down the deployment and avoid this run the following commands:
+
+```bash
+$ oc patch clusterversion/version --type='merge' -p "$(cat <<- EOF
+spec:
+  overrides:
+    - group: apps/v1
+      kind: Deployment
+      name: etcd-quorum-guard
+      namespace: openshift-machine-config-operator
+      unmanaged: true
+EOF
+)"
+clusterversion.config.openshift.io/version patched
+
+$ oc scale --replicas=1 deployment/etcd-quorum-guard -n openshift-machine-config-operator
+deployment.extensions/etcd-quorum-guard scaled
+```
 
 ## Cloud Pak for Integration 2019.4.1.1
 
