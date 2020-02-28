@@ -250,6 +250,10 @@ Sample config file that matches the AWS setup done above:
 
 1. Once installation is complete, access the IBM Cloud Pak for Integration Platform Navigator at the URL of the form `https://<release-name>-<namespace>.apps.<domain>`. By default, the installer uses `ibm-icp4i-prod` for the helm release name and `integration` for the namespace. For example, `https://ibm-icp4i-prod-integration.apps.<domain>`. To access it use the admin user and default password provided in the `config.yaml` file.
 
+#### Ensure CP4I Common Services run on the dedicated nodes
+
+1. It is recommended to ensure that Common Services run on the dedicated nodes and nothing else is scheduled on those nodes. Follow the guidelines of [this article](https://developer.ibm.com/integration/blog/2020/02/28/managing-ibm-platform-common-services-within-ibm-cloud-pak-for-integration/) to complete this step.
+
 ### Boot node deletion
 
 Once the installation has been successful and Cloud Pak for Integration is running the boot node is no longer needed and can be safely deleted, or you may opt to turn it off and turn it back on if you need to access the cluster in a remote machine.
