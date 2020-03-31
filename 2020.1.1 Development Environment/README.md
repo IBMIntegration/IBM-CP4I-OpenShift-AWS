@@ -1,36 +1,38 @@
-# Install Cloud Pak for Integration 2019.4.1.1 with OpenShift 4.2 on AWS
+# Install Cloud Pak for Integration 2020.1.1 with OpenShift 4.3 on AWS
 
->**CP4I 2020.1.1 is has been released, an updated guide is available [here](./../2020.1.1%20Development%20Environment/README.md)**
+>**CP4I 2020.1.1 can be installed either on OpenShift 4.2 or 4.3**
 
 This document will walk through the setup process of a **non-HA development** environment of Cloud Pak for Integration. This is **not** recommended for production.
 
 >**You are responsible for the cost of the AWS services used while running this deployment.**
 
-For the purpose of this guide the AWS region will be `us-east2` and the cluster will be deployed exclusively in availability zone `us-east-2b`.
+For the purpose of this guide the AWS region will be `us-west-1` and the cluster will be deployed exclusively in availability zone `us-west-1a`.
 
-> The [Installing a cluster quickly on AWS](https://docs.openshift.com/container-platform/4.2/installing/installing_aws/installing-aws-default.html) guide is **NOT** recommended to install CP4I. It provisions a very small HA cluster with not enough resources.
+> The [Installing a cluster quickly on AWS](https://docs.openshift.com/container-platform/4.3/installing/installing_aws/installing-aws-default.html) guide is **NOT** recommended to install CP4I. It provisions a very small HA cluster with not enough resources.
 
-This guide uses the **offline** installer of Cloud Pak for Integration. This installer is recommended for sites where there is no internet connection. There is an **online** installer that is considerable smaller and faster, for instructions on how to install CP4I with the online installer use [this link](https://www.ibm.com/support/knowledgecenter/SSGT7J_19.4/install/install_online.html).
+This guide uses the **offline** installer of Cloud Pak for Integration. This installer is recommended for sites where there is no internet connection. There is an **online** installer that is considerable smaller and faster, for instructions on how to install CP4I with the online installer use [this link](https://www.ibm.com/support/knowledgecenter/SSGT7J_20.1/install/install_online.html).
 
 ## Prerequisites
 
-1. Follow the steps to configure the AWS account from the [OpenShift Installing AWS Page](https://docs.openshift.com/container-platform/4.2/installing/installing_aws/installing-aws-account.html)
+1. Follow the steps to configure the AWS account from the [OpenShift Installing AWS Page](https://docs.openshift.com/container-platform/4.3/installing/installing_aws/installing-aws-account.html)
 
 1. This guide uses the following parameters:
     - Install directory: `dev` (located at the same path than the `openshift-install` executable.
     - Domain: `cloud.mydomain.com`
     - Cluster name: `dev`
 
-## OpenShift 4.2
+## OpenShift 4.3
 
 > The `install-config.yaml` file will be **deleted** as soon as you start the installation of OpenShift. If you have an interest in reusing it make sure you have a copy in another location.
 
-All of this steps should be done in your local machine. macOS Catalina 10.15.1 was used to create this guide.
+All of this steps should be done in your local machine. macOS Catalina 10.15.4 was used to create this guide.
+
+The OpenShift version and CLI Tools are `4.3.8`.
 
 1. Read and perform the steps below directly from the official OpenShift Guide
-    - [Generating an SSH private key and adding it to the agent](https://docs.openshift.com/container-platform/4.2/installing/installing_aws/installing-aws-customizations.html#ssh-agent-using_installing-aws-customizations)
-    - [Obtaining the installation program](https://docs.openshift.com/container-platform/4.2/installing/installing_aws/installing-aws-customizations.html#installation-obtaining-installer_installing-aws-customizations)
-    - [Installing the CLI](https://docs.openshift.com/container-platform/4.2/installing/installing_aws/installing-aws-customizations.html#cli-installing-cli_installing-aws-customizations)
+    - [Generating an SSH private key and adding it to the agent](https://docs.openshift.com/container-platform/4.3/installing/installing_aws/installing-aws-customizations.html#ssh-agent-using_installing-aws-customizations)
+    - [Obtaining the installation program](https://docs.openshift.com/container-platform/4.3/installing/installing_aws/installing-aws-customizations.html#installation-obtaining-installer_installing-aws-customizations)
+    - [Installing the CLI](https://docs.openshift.com/container-platform/4.3/installing/installing_aws/installing-aws-customizations.html#cli-installing-cli_installing-aws-customizations)
 
 1. Generate the installation configuration file.
 
@@ -38,13 +40,13 @@ All of this steps should be done in your local machine. macOS Catalina 10.15.1 w
     $ ./openshift-install create install-config --dir=./dev
     ? SSH Public Key /Users/user/.ssh/id_rsa.pub
     ? Platform aws
-    ? Region us-east-2
+    ? Region us-west-1
     ? Base Domain cloud.mydomain.com
     ? Cluster Name dev
     ? Pull Secret *******************
     ```
 
-1. Review the [install-config.yaml](./resources/install-config.yaml) file recommended for this installation and adjust the parameters to deploy a cluster needed for CP4I. If you want to learn more about the parameters supported for AWS go to the [Installation configuration parameters](https://docs.openshift.com/container-platform/4.2/installing/installing_aws/installing-aws-customizations.html#installation-configuration-parameters_installing-aws-customizations)
+1. Review the [install-config.yaml](./resources/install-config.yaml) file recommended for this installation and adjust the parameters to deploy a cluster needed for CP4I. If you want to learn more about the parameters supported for AWS go to the [Installation configuration parameters](https://docs.openshift.com/container-platform/4.3/installing/installing_aws/installing-aws-customizations.html#installation-configuration-parameters_installing-aws-customizations)
 
 1. Edit the `install-config.yaml` located inside the `dev` folder.
 
@@ -55,10 +57,10 @@ All of this steps should be done in your local machine. macOS Catalina 10.15.1 w
     ```
 
 1. Validate that the cluster was deployed properly.
-    - The install script will out the cluster console URL, the user and password needed to authenticate.
-    - Ensure the access from the `oc` CLI. [Logging in to the cluster](https://docs.openshift.com/container-platform/4.2/installing/installing_aws/installing-aws-customizations.html#cli-logging-in-kubeadmin_installing-aws-customizations)
+    - The install script will output the cluster console URL, the username and password needed to authenticate.
+    - Ensure the access from the `oc` CLI. [Logging in to the cluster](https://docs.openshift.com/container-platform/4.3/installing/installing_aws/installing-aws-customizations.html#cli-logging-in-kubeadmin_installing-aws-customizations)
 
-> Since this install only has one master 2 `etcd-quorum-guard` pods will be in pending state and will not work properly. The purpose of these pods are to maintain quorum for etcd. It expects at least 2 master nodes to be available to work properly. To scale down the deployment and avoid this run the following commands:
+> Since this install only has one master 2 `etcd-quorum-guard` pods will be in pending state and will not work properly. The purpose of these pods are to maintain quorum for `etcd`. It expects at least 2 master nodes to be available to work properly. To scale down the deployment and avoid this run the following commands:
 
 ```bash
 $ oc patch clusterversion/version --type='merge' -p "$(cat <<- EOF
@@ -77,7 +79,43 @@ $ oc scale --replicas=1 deployment/etcd-quorum-guard -n openshift-machine-config
 deployment.extensions/etcd-quorum-guard scaled
 ```
 
-## Cloud Pak for Integration 2019.4.1.1
+### OpenShift Container Storage 4.2
+
+One of the new features of CP4I 2020.1.1 is the support of OpenShift Container Storage 4.2 which provides a more cloud-agnostic approach for block, file and object storage. It is recommended that you add this to the development cluster cluster to take advantage of this feature, however, this will increase the footprint of the cluster by 3 nodes.
+
+Create a new `machine-set` that will provision the new nodes
+
+> To get the appropriate value for `AWS_COREOS_AMI` go to [this page](https://docs.openshift.com/container-platform/4.2/installing/installing_aws/installing-restricted-networks-aws.html#installation-aws-user-infra-rhcos-ami_installing-restricted-networks-aws) and use the AMI that corresponds to the region where you cluster is at. _In this guide: `ami-0ba912f53c1fdcdf0`_
+
+```
+$ export AWS_ZONE=us-west-1a
+$ export AWS_REGION=us-west-1
+$ export AWS_COREOS_AMI=ami-0ba912f53c1fdcdf0
+$ CLUSTER_ID=$(oc get machineset -n openshift-machine-api -o jsonpath='{.items[0].metadata.labels.machine\.openshift\.io/cluster-api-cluster}')
+
+$ echo $CLUSTER_ID
+dev-XXXXX
+
+$ curl -s https://TO_BE_ADDED | sed "s/CLUSTER_ID/$CLUSTER_ID/g" | sed "s/AWS_ZONE/$AWS_ZONE/g" | sed "s/AWS_REGION/$AWS_REGION/g" | sed "s/AWS_COREOS_AMI/$AWS_COREOS_AMI/g" | oc apply -f -
+machineset.machine.openshift.io/dev-XXXXX-workerocs-us-west-1a created
+```
+
+Taint the nodes to make sure they are dedicated for storage
+
+```
+$ oc get machines -n openshift-machine-api -o wide | grep workerocs | awk '{print $7}' | while read line; do
+oc adm taint nodes $line node.ocs.openshift.io/storage=true:NoSchedule
+done
+node/ip-10-0-137-90.us-west-1.compute.internal tainted
+node/ip-10-0-142-98.us-west-1.compute.internal tainted
+node/ip-10-0-137-109.us-west-1.compute.internal tainted
+```
+
+To install the Operator follow the official [RedHat Guide](https://access.redhat.com/documentation/en-us/red_hat_openshift_container_storage/4.2/html/deploying_openshift_container_storage/deploying-openshift-container-storage). Install the operator and then provision the storage cluster using the 3 workers created in the previous step.
+
+Other content about deploying OCS can be found [here](https://blog.openshift.com/deploying-your-storage-backend-using-openshift-container-storage-4/). 
+
+## Cloud Pak for Integration 2020.1.1
 
 > Since the OpenShift installer creates and destroys the bastion node that installs the cluster a new node will be created. Make sure this instance is created in the same VPC as the rest of the cluster.
 
@@ -117,7 +155,7 @@ deployment.extensions/etcd-quorum-guard scaled
     sudo -s
     ```
 
-1. Register your node with RedHat using the subscription manager and attach the machine to a pool.
+1. Register the node with RedHat using the subscription manager and attach the machine to a pool.
 
     ```console
     $ subscription-manager register
@@ -142,9 +180,9 @@ deployment.extensions/etcd-quorum-guard scaled
     ```console
     $ subscription-manager repos --enable="rhel-7-server-rpms" \
         --enable="rhel-7-server-extras-rpms" \
-        --enable="rhel-7-server-ose-4.2-rpms"
+        --enable="rhel-7-server-ose-4.3-rpms"
     Repository 'rhel-7-server-rpms' is enabled for this system.
-    Repository 'rhel-7-server-ose-4.2-rpms' is enabled for this system.
+    Repository 'rhel-7-server-ose-4.3-rpms' is enabled for this system.
     Repository 'rhel-7-server-extras-rpms' is enabled for this system.
 
     $ yum -y update
@@ -171,20 +209,20 @@ deployment.extensions/etcd-quorum-guard scaled
 
 ### CP4I Setup
 
-> Reference to the [IBM Knowledge Center](https://www.ibm.com/support/knowledgecenter/SSGT7J_19.4/install/install_red_hat.html)
+> Reference to the [IBM Knowledge Center](https://www.ibm.com/support/knowledgecenter/SSGT7J_20.1/install/install_red_hat.html)
 
-1. Download the `ibm-cloud-pak-for-integration-x86_64-2019.4.1.1-offline.tar.gz` file from [IBM Passport Advantage](https://www.ibm.com/software/passportadvantage/). _The size of this file is 32 GiB. This may take a while_
+1. Download the `ibm-cp-int-2020.1.1-offline.tar.gz` file from [IBM Passport Advantage](https://www.ibm.com/software/passportadvantage/). _The size of this file is ~37 GB. This may take a while_
 
 1. Extract the contents of the installer
 
     ```console
-    tar xf ibm-cloud-pak-for-integration-x86_64-2019.4.1.1-offline.tar.gz
+    tar xf ibm-cp-int-2020.1.1-offline.tar.gz
     ```
 
 1. Load the images into Docker. _This may take a while_
 
     ```console
-    tar xf <DOWNLOAD_DIRECTORY>/installer_files/cluster/images/common-services-armonk-x86_64.tar.gz -O | sudo docker load
+    tar xf <DOWNLOAD_DIRECTORY>/installer_files/cluster/images/common-services-boeblingen-2002-x86_64.tar.gz -O | sudo docker load
     ```
 
 1. Copy the `kubeconfig` file from your local machine into the `<DOWNLOAD_DIRECTORY>/installer_files/cluster/` in the boot node.
@@ -230,12 +268,15 @@ Sample config file that matches the AWS setup done above:
         - ip-10-0-0-2.us-east-2.compute.internal
     ```
 
-1. To retrieve the available storage class (which should be gp2) execute `oc get sc`
+1. To retrieve the available storage class execute `oc get sc`. You can use any of them. For this guide `ocs-storagecluster-ceph-rbd` is used.
 
     ```console
     $ oc get sc
     NAME            PROVISIONER             AGE
-    gp2 (default)   kubernetes.io/aws-ebs   151m
+    gp2 (default)                 kubernetes.io/aws-ebs                   175m
+    ocs-storagecluster-ceph-rbd   openshift-storage.rbd.csi.ceph.com      51m
+    ocs-storagecluster-cephfs     openshift-storage.cephfs.csi.ceph.com   51m
+    openshift-storage.noobaa.io   openshift-storage.noobaa.io/obc         46m
     ```
 
 1. It is a good idea to add a custom tag in AWS to identify which nodes have which CP4I components installed.
@@ -247,7 +288,7 @@ Sample config file that matches the AWS setup done above:
 1. To start the installation execute the following command. _A file `install.log` will be created using `tee` in case there is a need to review the logs._
 
     ```console
-    sudo docker run -t --net=host -e LICENSE=accept -v $(pwd):/installer/cluster:z -v /var/run:/var/run:z -v /etc/docker:/etc/docker:z --security-opt label:disable ibmcom/icp-inception-amd64:3.2.2 addon -vvv | tee install.log
+    sudo docker run -t --net=host -e LICENSE=accept -v $(pwd):/installer/cluster:z -v /var/run:/var/run:z -v /etc/docker:/etc/docker:z --security-opt label:disable ibmcom/icp-inception-amd64:3.2.4 addon -vvv | tee install.log
     ```
 
 1. Once installation is complete, access the IBM Cloud Pak for Integration Platform Navigator at the URL of the form `https://<release-name>-<namespace>.apps.<domain>`. By default, the installer uses `ibm-icp4i-prod` for the helm release name and `integration` for the namespace. For example, `https://ibm-icp4i-prod-integration.apps.<domain>`. To access it use the admin user and default password provided in the `config.yaml` file.
@@ -281,7 +322,7 @@ However, there are a **few issues** with the formatting and spacing the suggeste
 To stop all EC2 the instances associated with the cluster:
 
 ```console
-$ export REGION=us-east-2
+$ export REGION=us-west-1
 NO_OUTPUT
 
 $ export CLUSTERNAME=cluster-name-GUID
