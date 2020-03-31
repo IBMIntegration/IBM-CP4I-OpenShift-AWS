@@ -96,7 +96,7 @@ $ CLUSTER_ID=$(oc get machineset -n openshift-machine-api -o jsonpath='{.items[0
 $ echo $CLUSTER_ID
 dev-XXXXX
 
-$ curl -s https://TO_BE_ADDED | sed "s/CLUSTER_ID/$CLUSTER_ID/g" | sed "s/AWS_ZONE/$AWS_ZONE/g" | sed "s/AWS_REGION/$AWS_REGION/g" | sed "s/AWS_COREOS_AMI/$AWS_COREOS_AMI/g" | oc apply -f -
+$ curl -s https://raw.githubusercontent.com/IBMIntegration/IBM-CP4I-OpenShift-AWS/master/2020.1.1%20Development%20Environment/resources/cluster-worker-ocs.yaml | sed "s/CLUSTER_ID/$CLUSTER_ID/g" | sed "s/AWS_ZONE/$AWS_ZONE/g" | sed "s/AWS_REGION/$AWS_REGION/g" | sed "s/AWS_COREOS_AMI/$AWS_COREOS_AMI/g" | oc apply -f -
 machineset.machine.openshift.io/dev-XXXXX-workerocs-us-west-1a created
 ```
 
