@@ -676,7 +676,7 @@ will allow the user to see all projects and artefacts in the console.
 Sometimes this command will give a 'user not found' error but still
 work.
 ```
-# oc adm policy add-cluster-role-to-user admin admin
+# oc adm policy add-cluster-role-to-user cluster-admin admin
 ```
 Verifying Installation
 ----------------------
